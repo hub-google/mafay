@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+config.json
+region_config.json
+screenshots/
+mafei_data.csv
+detection_log.txt
+*.png
+*.jpg
+.venv/
+env/
+插件参考/

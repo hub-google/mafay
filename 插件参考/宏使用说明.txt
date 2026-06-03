@@ -1,0 +1,92 @@
+中间  间隔1个空格
+
+/skill mbuff 共战江湖 浮游天地  -- 自身有buff 使用技能
+/skill mnobuff 九音惊弦阵|受到镖师的保护 浮游天地  -- 自身没有buff
+/skill mbuff   xx|xx|xx 技能                      -- 自身有buff
+
+/skill tnobuff   xx|xx|xx 技能                    -- 目标米有buff   
+/skill tbuff xx|xx|xx 技能       -- 目标有buff
+
+/skill tmovestate 眩晕  技能              -- 自身状态
+
+/skill mlife >50 技能              -- 自身血量大于百分50 使用技能 
+
+/skill tlife <50 技能              -- 目标血量低于百分50 使用技能
+
+/skill rage >5 技能              -- 
+/skill nav >5 技能              -- 
+/skill jpv >5 技能              -- 
+/skill tmen >5 技能              -- 
+/skill sun >5 技能              -- 
+
+/skill moon >5 技能              -- 
+/skill fullsun >5技能              -- 
+/skill fullmoon >5  技能              -- 
+
+/skill tstate  九音惊弦阵|受到镖师的保护 浮游天地            -- 
+
+/skill mnocd   九音惊弦阵|受到镖师的保护 浮游天地   
+
+/skill tlodoing   九音惊弦阵|受到镖师的保护 浮游天地   
+
+/skill mlodoing   九音惊弦阵|受到镖师的保护 浮游天地 
+
+/skill tbuffnum   状态<5 浮游天地 
+
+/skill mbuffnum   状态<5 浮游天地 
+
+/skill useSkillid 浮游天地  -----释放技能 
+
+/skill distance <5 银月斩  在一定的距离内
+
+/skill jidtpd 技能名称  银月斩  读条释放技能
+
+/skill bufftime 技能名称<5  银月斩         --判断自身BUFF 时间 释放技能
+/skill tbufftime 技能名称<5  银月斩         --判断目标BUFF 时间 释放技能
+
+
+/skill moon moon<60&moon>sun 银月斩|1 
+/skill tnobuff  moon<60&mbuff-共战江湖&jpv>5 银月斩|1 
+
+
+
+/skill FDduibi   FDduibi-Invincible&FDduibi-Uncontrollable 银月斩
+
+/skill tFDduibi tFDduibi-Invincible|tFDduibi-Uncontrollable 银月斩
+
+/skill FDduibi Uncontrollable 银月斩
+
+
+FDduibi   目标有状态
+tFDduibi  目标没有状态
+
+MFDduibi   自身有状态
+MtFDduibi  自身没有状态
+
+
+Invincible 无敌
+Silence 沉默
+Uncontrollable 免控
+Halt 眩晕
+Entrap 锁足
+Freeze 定身
+Breakout 爆发
+Reduceinjury 减伤
+Dodge 闪避
+Reduceheal 减疗
+Slower 减速
+Silence2 封内
+BanSprint 封轻功
+
+
+
+
+
+
+
+
+
+
+
+
+
