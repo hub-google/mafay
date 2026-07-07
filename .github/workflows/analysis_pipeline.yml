@@ -1,0 +1,83 @@
+name: JX3 VOD Analysis Pipeline
+
+on:
+  push:
+    paths:
+      - 'videos.txt'
+      - 'config.json'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  split-jobs:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install yt-dlp
+        run: pip install yt-dlp==2024.04.09
+      - name: Generate matrix
+        id: set-matrix
+        run: python scripts/split_jobs.py
+
+  process-videos:
+    needs: split-jobs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        batch: ${{ fromJson(needs.split-jobs.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install system dependencies (Tesseract & OpenCV)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng libgl1-mesa-glx
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Run Processor
+        run: |
+          # Use single quotes for the JSON argument
+          python scripts/main_processor.py '${{ toJson(matrix.batch) }}'
+      - name: Upload chunk artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: csv-chunks
+          path: chunk_*.csv
+
+  merge-results:
+    needs: process-videos
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Pandas and Openpyxl
+        run: pip install pandas openpyxl
+      - name: Download all chunks
+        uses: actions/download-artifact@v3
+        with:
+          name: csv-chunks
+          path: .
+      - name: Merge and format
+        run: python scripts/merge_results.py
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add analysis_results.xlsx
+          # Only commit if there are changes
+          git diff --staged --quiet || git commit -m "Auto-update analysis_results.xlsx"
+          git push

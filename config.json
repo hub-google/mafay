@@ -1,0 +1,9 @@
+{
+  "ui_anchors": {
+    "system_time": { "y_range": [0.0, 0.05], "x_range": [0.08, 0.25] },
+    "system_chat": { "y_range": [0.20, 0.65], "x_range": [0.0, 0.25] },
+    "circle_info": { "y_range": [0.55, 0.68], "x_range": [0.70, 0.85] },
+    "players_alive": { "y_range": [0.20, 0.35], "x_range": [0.90, 0.98] }
+  },
+  "padding": 15
+}
