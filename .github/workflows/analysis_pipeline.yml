@@ -42,7 +42,7 @@ jobs:
       - name: Install system dependencies (Tesseract & OpenCV)
         run: |
           sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng libgl1-mesa-glx
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-chi-sim tesseract-ocr-eng libgl1
       - name: Install Python dependencies
         run: pip install -r requirements.txt
       - name: Run Processor
