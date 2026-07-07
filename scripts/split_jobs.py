@@ -8,7 +8,7 @@ def expand_urls(url):
     print(f"Expanding URL: {url}")
     try:
         # 使用 extract_flat=True 來加速
-        cmd = ["python", "-m", "yt_dlp", "--flat-playlist", "--dump-json", url]
+        cmd = ["python", "-m", "yt_dlp", "--flat-playlist", "--dump-json", "--extractor-args", "youtube:player-client=ios", url]
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         urls = []
         for line in result.stdout.strip().split('\n'):

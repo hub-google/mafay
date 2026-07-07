@@ -17,7 +17,7 @@ except Exception as e:
 def get_stream_url(video_url):
     """Use yt-dlp to get the best m3u8 stream URL"""
     try:
-        cmd = ["python", "-m", "yt_dlp", "-f", "bestvideo[ext=mp4]/best", "-g", video_url]
+        cmd = ["python", "-m", "yt_dlp", "-f", "bestvideo[ext=mp4]/best", "-g", "--extractor-args", "youtube:player-client=ios", video_url]
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return result.stdout.strip()
     except Exception as e:
