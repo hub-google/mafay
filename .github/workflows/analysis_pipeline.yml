@@ -5,7 +5,8 @@ on:
     paths:
       - 'videos.txt'
       - 'config.json'
-      - 'scripts/**'
+  workflow_dispatch:
+
 permissions:
   contents: write
 
