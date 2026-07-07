@@ -57,8 +57,11 @@ def main():
 
     all_urls = []
     for url in raw_urls:
-        expanded = expand_urls(url)
-        all_urls.extend(expanded)
+        if "watch?v=" in url or "youtu.be/" in url:
+            all_urls.append(url)
+        else:
+            expanded = expand_urls(url)
+            all_urls.extend(expanded)
         
     # 去重並保持順序
     seen = set()
