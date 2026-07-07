@@ -24,6 +24,11 @@ def expand_urls(url):
             if video_id:
                 urls.append(f"https://www.youtube.com/watch?v={video_id}")
         return urls
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to expand URL {url}: {e}")
+        print(f"Stdout: {e.stdout}")
+        print(f"Stderr: {e.stderr}")
+        return []
     except Exception as e:
         print(f"Failed to expand URL {url}: {e}")
         return []
@@ -35,7 +40,7 @@ def main():
         sys.exit(1)
         
     raw_urls = []
-    with open(videos_file, 'r', encoding='utf-8') as f:
+    with open(videos_file, 'r', encoding='utf-8-sig') as f:
         for line in f:
             line = line.strip()
             if line and not line.startswith('#'):
