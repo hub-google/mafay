@@ -23,15 +23,26 @@ def format_excel(excel_path):
             ws.column_dimensions[col_letter].width = adjusted_width
     wb.save(excel_path)
 
+def read_and_concat(files):
+    dfs = []
+    for f in files:
+        try:
+            df = pd.read_csv(f)
+            if not df.empty:
+                dfs.append(df)
+        except pd.errors.EmptyDataError:
+            pass
+    return pd.concat(dfs) if dfs else pd.DataFrame()
+
 def main():
     print("Starting merge process...")
     master_files = glob.glob("chunk_*_master.csv")
     circle_files = glob.glob("chunk_*_circle.csv")
     bandit_files = glob.glob("chunk_*_bandit.csv")
 
-    master_df = pd.concat([pd.read_csv(f) for f in master_files]) if master_files else pd.DataFrame()
-    circle_df = pd.concat([pd.read_csv(f) for f in circle_files]) if circle_files else pd.DataFrame()
-    bandit_df = pd.concat([pd.read_csv(f) for f in bandit_files]) if bandit_files else pd.DataFrame()
+    master_df = read_and_concat(master_files)
+    circle_df = read_and_concat(circle_files)
+    bandit_df = read_and_concat(bandit_files)
 
     excel_path = "analysis_results.xlsx"
     
