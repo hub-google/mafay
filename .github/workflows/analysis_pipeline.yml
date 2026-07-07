@@ -14,13 +14,13 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install yt-dlp
-        run: pip install yt-dlp==2024.04.09
+        run: pip install yt-dlp
       - name: Generate matrix
         id: set-matrix
         run: python scripts/split_jobs.py
@@ -33,9 +33,9 @@ jobs:
         batch: ${{ fromJson(needs.split-jobs.outputs.matrix) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install system dependencies (Tesseract & OpenCV)
@@ -49,9 +49,9 @@ jobs:
           # Use single quotes for the JSON argument
           python scripts/main_processor.py '${{ toJson(matrix.batch) }}'
       - name: Upload chunk artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: csv-chunks
+          name: csv-chunks-${{ strategy.job-index }}
           path: chunk_*.csv
 
   merge-results:
@@ -59,18 +59,19 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install Pandas and Openpyxl
         run: pip install pandas openpyxl
       - name: Download all chunks
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: csv-chunks
+          pattern: csv-chunks-*
           path: .
+          merge-multiple: true
       - name: Merge and format
         run: python scripts/merge_results.py
       - name: Commit and Push
