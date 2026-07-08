@@ -23,6 +23,11 @@ def get_stream_url(video_url):
         cmd.append(video_url)
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to extract stream URL for {video_url}: {e}")
+        print(f"yt-dlp stdout:\n{e.stdout}")
+        print(f"yt-dlp stderr:\n{e.stderr}")
+        return None
     except Exception as e:
         print(f"Failed to extract stream URL for {video_url}: {e}")
         return None
