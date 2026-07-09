@@ -8,7 +8,7 @@ def expand_urls(url):
     print(f"Expanding URL: {url}")
     try:
         # 使用 extract_flat=True 來加速
-        cmd = ["python", "-m", "yt_dlp", "--flat-playlist", "--dump-json", "--extractor-args", "youtube:player-client=ios"]
+        cmd = ["python", "-m", "yt_dlp", "--flat-playlist", "--dump-json"]
         if os.path.exists("cookies.txt"):
             cmd.extend(["--cookies", "cookies.txt"])
         cmd.append(url)
